@@ -1,0 +1,31 @@
+<div class="products-container">
+  <h2>Produtos Cadastrados</h2>
+
+  <div *ngIf="loading">Carregando produtos...</div>
+  <div *ngIf="error">{{ error }}</div>
+
+  <table *ngIf="!loading && products.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Preço (cents)</th>
+        <th>Ativo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.priceCents }}</td>
+        <td>{{ product.active ? 'Sim' : 'Não' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && products.length === 0">
+    Nenhum produto cadastrado.
+  </div>
+</div>

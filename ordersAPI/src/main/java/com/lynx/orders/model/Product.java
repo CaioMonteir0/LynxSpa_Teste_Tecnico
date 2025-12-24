@@ -1,24 +1,34 @@
 package com.lynx.orders.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import jakarta.persistence.Id;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "products")
+@Builder
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 120)
     private String name;
+
+    @Column(nullable = false, length = 60)
     private String category;
+
+    @Column(name = "price_cents", nullable = false)
     private Integer priceCents;
-    private Boolean active;
+
+    @Column(nullable = false)
+    private Boolean active = true;
 }
