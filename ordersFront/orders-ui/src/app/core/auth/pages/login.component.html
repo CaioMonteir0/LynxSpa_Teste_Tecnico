@@ -1,0 +1,46 @@
+<div class="login-container">
+
+  <h1>Gestão de Pedidos</h1>
+
+  <div class="cards">
+
+    <!-- CLIENTE -->
+    <div class="card">
+      <h2>Cliente</h2>
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="clientEmail"
+      />
+
+      <input
+        type="password"
+        placeholder="Senha"
+        [(ngModel)]="clientPassword"
+      />
+
+      <button (click)="loginClient()">Entrar</button>
+    </div>
+
+    <!-- OPERADOR -->
+    <div class="card">
+      <h2>Operador</h2>
+
+      <input
+        type="text"
+        placeholder="Usuário"
+        [(ngModel)]="operatorUser"
+      />
+
+      <input
+        type="password"
+        placeholder="Senha"
+        [(ngModel)]="operatorPassword"
+      />
+
+      <button (click)="loginOperator()">Entrar</button>
+    </div>
+
+  </div>
+</div>
