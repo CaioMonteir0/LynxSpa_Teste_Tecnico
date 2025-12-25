@@ -1,35 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService, Product } from '../services/product.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ProductsService } from '../services/product.service';
+import { Product } from '../model/product.model';
+
 @Component({
+  standalone: true,
   selector: 'app-products',
   templateUrl: './products.component.html',
-  standalone: true,
-  imports: [CommonModule],
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  imports: [CommonModule, FormsModule]
 })
 export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
   loading = false;
-  error = '';
 
-  constructor(private productService: ProductService) { }
+  search = '';
+  category = '';
+  activeOnly = false;
+
+  constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
-  loadProducts() {
+  loadProducts(): void {
     this.loading = true;
-    this.productService.getAll().subscribe({
-      next: (data) => {
+
+    this.productsService.getProducts({
+      name: this.search,
+      category: this.category,
+      activeOnly: this.activeOnly
+    }).subscribe({
+      next: data => {
         this.products = data;
         this.loading = false;
       },
-      error: (err) => {
-        console.error(err);
-        this.error = 'Erro ao carregar produtos';
+      error: () => {
         this.loading = false;
       }
     });

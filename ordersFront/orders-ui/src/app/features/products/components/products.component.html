@@ -1,31 +1,74 @@
-<div class="products-container">
-  <h2>Produtos Cadastrados</h2>
+<div class="container mt-4">
 
-  <div *ngIf="loading">Carregando produtos...</div>
-  <div *ngIf="error">{{ error }}</div>
+  <h2>Produtos</h2>
 
-  <table *ngIf="!loading && products.length > 0">
+  <!-- Filtros -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input
+        class="form-control"
+        placeholder="Buscar por nome"
+        [(ngModel)]="search"
+        (ngModelChange)="loadProducts()"
+      />
+    </div>
+
+    <div class="col-md-4">
+      <input
+        class="form-control"
+        placeholder="Categoria"
+        [(ngModel)]="category"
+        (ngModelChange)="loadProducts()"
+      />
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="activeOnly"
+        (change)="loadProducts()"
+      />
+      <label class="form-check-label">
+        Somente ativos
+      </label>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center">
+    Carregando...
+  </div>
+
+  <!-- Lista -->
+  <table *ngIf="!loading && products.length" class="table table-striped">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Nome</th>
         <th>Categoria</th>
-        <th>Preço (cents)</th>
-        <th>Ativo</th>
+        <th>Preço</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products">
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.category }}</td>
-        <td>{{ product.priceCents }}</td>
-        <td>{{ product.active ? 'Sim' : 'Não' }}</td>
+      <tr *ngFor="let p of products">
+        <td>{{ p.name }}</td>
+        <td>{{ p.category }}</td>
+        <td>R$ {{ p.priceCents / 100 | number:'1.2-2' }}</td>
+        <td>
+          <span
+            class="badge"
+            [class.bg-success]="p.active"
+            [class.bg-secondary]="!p.active">
+            {{ p.active ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <div *ngIf="!loading && products.length === 0">
-    Nenhum produto cadastrado.
+  <div *ngIf="!loading && products.length === 0" class="alert alert-info">
+    Nenhum produto encontrado.
   </div>
+
 </div>
