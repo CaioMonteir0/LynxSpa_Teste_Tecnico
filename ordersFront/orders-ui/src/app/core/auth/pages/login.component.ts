@@ -1,36 +1,37 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.services';
-
+import { MessageService } from '../../ui/message.service';
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    standalone: true,
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    imports: [FormsModule]
 })
 export class LoginComponent {
 
-  clientEmail = '';
-  clientPassword = '';
+    clientEmail = '';
+    clientPassword = '';
 
-  operatorUser = '';
-  operatorPassword = '';
+    operatorUser = '';
+    operatorPassword = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+    constructor(
+        private authService: AuthService,
+        private messageService: MessageService
+    ) { }
 
-  loginClient() {
-    this.authService.login('CLIENT');
-    this.router.navigate(['/orders']);
-  }
+    loginClient() {
+        if (this.clientEmail && this.clientPassword) {
+            this.authService.loginClient(this.clientEmail, this.clientPassword);
+        }
+       
+    }
 
-  loginOperator() {
-    this.authService.login('OPERATOR');
-    this.router.navigate(['/products']);
-  }
+    loginOperator() {
+        if (this.operatorUser && this.operatorPassword) {
+         this.authService.loginOperator(this.operatorUser, this.operatorPassword);
+        } 
+    }
 }
