@@ -39,11 +39,12 @@ export class AuthService {
     };
 
     this.saveUser(authUser);
-    this.messageService.success(`Bem vindo colaborador, ${user}`);
+    this.messageService.success(`Bem-vindo colaborador ${user} !`);
     this.router.navigate(['/products']);
   }
 
   logout(): void {
+    
     localStorage.removeItem(this.STORAGE_KEY);
     this.router.navigate(['/login']);
   }

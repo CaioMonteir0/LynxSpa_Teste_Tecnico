@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="authService.isAuthenticated()">
+
+  <div class="container-fluid">
+
+    <a class="navbar-brand">
+      Gestão de Pedidos
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <ul class="navbar-nav me-auto">
+
+        <!-- OPERADOR -->
+        <li class="nav-item" *ngIf="authService.hasRole('OPERATOR')">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">
+            Produtos
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="authService.hasRole('OPERATOR')">
+          <a class="nav-link" routerLink="/orders" routerLinkActive="active">
+            Pedidos
+          </a>
+        </li>
+
+        <!-- CLIENTE -->
+        <li class="nav-item" *ngIf="authService.hasRole('CLIENT')">
+          <a class="nav-link" routerLink="/orders" routerLinkActive="active">
+            Meus Pedidos
+          </a>
+        </li>
+
+      </ul>
+
+      <span class="navbar-text text-light me-3">
+        {{ authService.getUser()?.name }}
+      </span>
+
+      <button class="btn btn-outline-light btn-sm" (click)="logout()">
+        Sair
+      </button>
+
+    </div>
+  </div>
+</nav>
