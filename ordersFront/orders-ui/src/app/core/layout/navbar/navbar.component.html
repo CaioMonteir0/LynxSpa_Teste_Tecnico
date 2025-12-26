@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="authService.isAuthenticated()">
+<nav class="navbar navbar-dark bg-dark" *ngIf="authService.isAuthenticated()">
 
   <div class="container-fluid">
 
@@ -6,47 +6,61 @@
       Gestão de Pedidos
     </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto d-flex flex-row">
 
         <!-- OPERADOR -->
-        <li class="nav-item" *ngIf="authService.hasRole('OPERATOR')">
-          <a class="nav-link" routerLink="/products" routerLinkActive="active">
+        <li id="nav-products" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
+          <a class="nav-link active" routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Produtos
           </a>
         </li>
 
-        <li class="nav-item" *ngIf="authService.hasRole('OPERATOR')">
-          <a class="nav-link" routerLink="/orders" routerLinkActive="active">
-            Pedidos
+        <li id="nav-products-register" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
+          <a class="nav-link active" routerLink="/products/new" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
+            Cadastro de Produtos
           </a>
         </li>
 
         <!-- CLIENTE -->
-        <li class="nav-item" *ngIf="authService.hasRole('CLIENT')">
-          <a class="nav-link" routerLink="/orders" routerLinkActive="active">
+        <li class="nav-item me-3" *ngIf="authService.hasRole('CLIENT')">
+          <a class="nav-link active" routerLink="/orders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Meus Pedidos
           </a>
         </li>
 
       </ul>
 
-      <span class="navbar-text text-light me-3">
-        {{ authService.getUser()?.name }}
-      </span>
+      <div class="nav-user-info">
+        <span *ngIf="authService.hasRole('OPERATOR')">
+          <img src="assets/images/carteira-de-identidade.png" class="rounded-circle" width="32" height="32" />
+        </span>
 
-      <button class="btn btn-outline-light btn-sm" (click)="logout()">
+        <span *ngIf="authService.hasRole('CLIENT')">
+          <img src="assets/images/cliente.png" class="rounded-circle" width="32" height="32" />
+        </span>
+
+        <span class="navbar-text text-light me-2" style="margin-left: 8px ;" *ngIf="authService.hasRole('OPERATOR')">
+          {{ authService.getUser()?.name }}
+        </span>
+
+        <span class="navbar-text text-light me-2" style="margin-left: 8px ;" *ngIf="authService.hasRole('CLIENT')">
+          {{ authService.getUser()?.name }}
+        </span>
+
+        <button class="btn btn-outline-danger btn-sm" (click)="logout()" style="margin-left: 12px ;">
         Sair
       </button>
+      </div>
+
+
+
+      
 
     </div>
   </div>

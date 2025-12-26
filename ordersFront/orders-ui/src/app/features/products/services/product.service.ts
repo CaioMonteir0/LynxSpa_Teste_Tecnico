@@ -32,4 +32,13 @@ export class ProductsService {
 
     return this.http.get<Product[]>(this.API_URL, { params });
   }
+
+  create(product: Product) {
+    return this.http.post(this.API_URL, {
+      name: product.name,
+      category: product.category,
+      priceCents: product.priceCents,
+      active: product.active
+    })
+  }
 }
