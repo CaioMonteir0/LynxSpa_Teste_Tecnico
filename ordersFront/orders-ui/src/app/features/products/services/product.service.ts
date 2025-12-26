@@ -38,7 +38,13 @@ export class ProductsService {
       name: product.name,
       category: product.category,
       priceCents: product.priceCents,
-      active: product.active
+      active: product.active,
+      imageUrl: product.imageUrl
     })
   }
+
+  delete(id: number) {
+  return this.http.delete(`${this.API_URL}/${id}`);
+}
+
 }

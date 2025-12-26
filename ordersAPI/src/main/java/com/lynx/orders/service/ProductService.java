@@ -21,6 +21,7 @@ public class ProductService {
             .category(request.category())
             .priceCents(request.priceCents())
             .active(true)
+            .imageUrl(request.imageUrl())
             .build();
 
     return productRepository.save(product);

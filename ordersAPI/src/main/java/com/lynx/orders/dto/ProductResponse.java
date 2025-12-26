@@ -11,11 +11,13 @@ public class ProductResponse {
     private String category;
     private Integer priceCents;
     private Boolean active;
+    private String imageUrl;
 
     public ProductResponse(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory();
+        this.imageUrl = product.getImageUrl();
         this.priceCents = product.getPriceCents();
         this.active = product.getActive();
     }

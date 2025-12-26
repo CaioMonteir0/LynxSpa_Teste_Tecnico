@@ -31,4 +31,7 @@ public class Product {
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    @Column(nullable = false)
+    private String imageUrl;
 }

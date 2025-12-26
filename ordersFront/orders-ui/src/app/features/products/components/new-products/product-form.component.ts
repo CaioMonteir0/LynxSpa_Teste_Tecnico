@@ -8,6 +8,7 @@ import { Product } from '../../model/product.model';
     standalone: true,
     selector: 'app-product-form',
     templateUrl: './product-form.component.html',
+    styleUrls: ['./product-form.component.css'],
     imports: [CommonModule, FormsModule]
 })
 export class ProductFormComponent {
@@ -19,12 +20,17 @@ export class ProductFormComponent {
 
     priceFormatted = '';
     priceInvalid = false;
+    imagePreview?: string;
+    imageInvalid = false;
+    imageError = false;
+
 
     product: Product = {
         name: '',
         category: '',
         priceCents: 0,
-        active: true
+        active: true,
+        
     };
 
     validatePrice(): boolean {
@@ -71,6 +77,23 @@ export class ProductFormComponent {
         this.priceFormatted = '';
         this.priceInvalid = false;
     }
+
+    onImageUrlChange() {
+        if (!this.product.imageUrl) return;
+
+        const img = new Image();
+        img.onload = () => {
+            this.imagePreview = this.product.imageUrl!;
+            this.imageInvalid = false;
+        };
+        img.onerror = () => {
+            this.imagePreview = undefined;
+            this.imageInvalid = true;
+        };
+        console.log("Url da imagem:",this.product.imageUrl);
+        img.src = this.product.imageUrl;
+    }
+
 
 
     save() {

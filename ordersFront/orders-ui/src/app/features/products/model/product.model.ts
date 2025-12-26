@@ -4,4 +4,5 @@ export interface Product {
   category: string;
   priceCents: number;
   active: boolean;
+  imageUrl?: string;
 }

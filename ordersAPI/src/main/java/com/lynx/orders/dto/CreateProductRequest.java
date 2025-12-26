@@ -12,6 +12,9 @@ public record CreateProductRequest(
         String category,
 
         @NotNull
-        Integer priceCents
+        Integer priceCents,
+
+        @NotBlank
+        String imageUrl
 ) {
 }

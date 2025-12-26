@@ -5,30 +5,17 @@
   <!-- Filtros -->
   <div class="row mb-3">
     <div class="col-md-4">
-      <input
-        class="form-control"
-        placeholder="Buscar por nome"
-        [(ngModel)]="search"
-        (ngModelChange)="loadProducts()"
-      />
+      <input class="form-control" placeholder="Buscar por nome" [(ngModel)]="filter.search"
+        (ngModelChange)="applyFilters()" />
     </div>
 
     <div class="col-md-4">
-      <input
-        class="form-control"
-        placeholder="Categoria"
-        [(ngModel)]="category"
-        (ngModelChange)="loadProducts()"
-      />
+      <input class="form-control" placeholder="Categoria" [(ngModel)]="filter.category"
+        (ngModelChange)="applyFilters()" />
     </div>
 
     <div class="col-md-4 form-check mt-2">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        [(ngModel)]="activeOnly"
-        (change)="loadProducts()"
-      />
+      <input class="form-check-input" type="checkbox" [(ngModel)]="filter.onlyActive" (change)="applyFilters()" />
       <label class="form-check-label">
         Somente ativos
       </label>
@@ -44,24 +31,36 @@
   <table *ngIf="!loading && products.length" class="table table-striped">
     <thead>
       <tr>
+        <th>Produto</th>
         <th>Nome</th>
         <th>Categoria</th>
         <th>Preço</th>
         <th>Status</th>
+        <th class="text-center">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of products">
+      <tr *ngFor="let p of filteredProducts; let i = index; trackBy: trackById" >
+        <td>
+          <img *ngIf="p.imageUrl" [src]="p.imageUrl" alt="{{ p.name }}" width="60" height="60" class="img-thumbnail"
+            style="object-fit: cover;" />
+        </td>
         <td>{{ p.name }}</td>
         <td>{{ p.category }}</td>
         <td>R$ {{ p.priceCents / 100 | number:'1.2-2' }}</td>
         <td>
-          <span
-            class="badge"
-            [class.bg-success]="p.active"
-            [class.bg-secondary]="!p.active">
+          <span class="badge" [class.bg-success]="p.active" [class.bg-secondary]="!p.active">
             {{ p.active ? 'Ativo' : 'Inativo' }}
           </span>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editProduct(i)" title="Editar">
+            <i class="bi bi-pencil"></i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(i)" title="Excluir">
+            <i class="bi bi-trash"></i>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -71,4 +70,41 @@
     Nenhum produto encontrado.
   </div>
 
+</div>
+
+
+ <!-- Modal de exclusão -->
+<div
+  class="modal fade show"
+  tabindex="-1"
+  *ngIf="showDeleteModal"
+  style="display: block; background: rgba(0,0,0,0.5)"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar exclusão</h5>
+        <button type="button" class="btn-close" (click)="showDeleteModal = false"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tem certeza que deseja excluir o produto
+          <strong>{{ selectedProduct?.name }}</strong>?
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showDeleteModal = false">
+          Cancelar
+        </button>
+
+        <button class="btn btn-danger" (click)="deleteProduct()">
+          Excluir
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -1,59 +1,132 @@
-<h2>Novo Produto</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<form class="mt-4" (ngSubmit)="save()">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Cadastro de Produto</h5>
+        </div>
 
-  <div class="mb-3">
-    <label class="form-label">Nome</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="product.name"
-      name="name"
-      required
-    />
+        <div class="card-body">
+          <form (ngSubmit)="save()">
+
+            <div class="row">
+              <!-- FORM -->
+              <div class="col-md-7">
+
+                <div class="mb-3">
+                  <label class="form-label">Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="product.name"
+                    name="name"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Categoria</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="product.category"
+                    name="category"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Preço</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="priceFormatted"
+                    (input)="onPriceInput($event)"
+                    placeholder="R$ 0,00"
+                  />
+
+                  <div *ngIf="priceInvalid" class="text-danger mt-1">
+                    O preço deve ser maior que zero
+                  </div>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [(ngModel)]="product.active"
+                    name="active"
+                  />
+                  <label class="form-check-label">
+                    Produto ativo
+                  </label>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">URL da imagem</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="imageUrl"
+                    [(ngModel)]="product.imageUrl"
+                    placeholder="https://..."
+                    (ngModelChange)="onImageUrlChange()"
+                  />
+
+                  <div *ngIf="imageInvalid" class="text-danger mt-1">
+                    URL inválida ou imagem não carregável
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- PREVIEW -->
+              <div class="col-md-5 text-center">
+
+                <p class="fw-bold">Pré-visualização</p>
+
+                <div
+                  class="border rounded d-flex align-items-center justify-content-center"
+                  style="height: 220px"
+                >
+                  <img
+                    *ngIf="imagePreview"
+                    [src]="imagePreview"
+                    class="img-fluid rounded"
+                    style="max-height: 200px"
+                  />
+
+                  <span *ngIf="!imagePreview" class="text-muted">
+                    Sem imagem
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-end">
+              <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="
+                  priceInvalid ||
+                  !product.name ||
+                  !product.category ||
+                  imageInvalid
+                "
+                (click)="save()"
+              >
+                Salvar Produto
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
   </div>
-
-  <div class="mb-3">
-    <label class="form-label">Categoria</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="product.category"
-      name="category"
-    />
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">Preço (R$)</label>
-    <input
-      type="text"
-      class="form-control"
-      [value]="priceFormatted"
-      (input)="onPriceInput($event)"
-      placeholder="R$ 0,00"
-    />
-    <div *ngIf="priceInvalid" class="text-danger mt-1">
-    O preço deve ser maior que zero
-  </div>
-  </div>
-
-  <div class="form-check mb-3">
-    <input
-      type="checkbox"
-      class="form-check-input"
-      [(ngModel)]="product.active"
-      name="active"
-    />
-    <label class="form-check-label">Produto ativo</label>
-  </div>
-
-  <button
-   class="btn btn-primary" 
-   type="submit"
-   [disabled]="priceInvalid || !product.name || !product.category" 
-   (click)="save()"
-   >
-    Salvar Produto
-  </button>
-
-</form>
+</div>
