@@ -40,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of filteredProducts; let i = index; trackBy: trackById" >
+      <tr *ngFor="let p of filteredProducts; let i = index; trackBy: trackById" style="vertical-align: middle;">
         <td>
           <img *ngIf="p.imageUrl" [src]="p.imageUrl" alt="{{ p.name }}" width="60" height="60" class="img-thumbnail"
             style="object-fit: cover;" />
@@ -54,11 +54,11 @@
           </span>
         </td>
         <td class="text-center">
-          <button class="btn btn-sm btn-outline-primary me-2" (click)="editProduct(i)" title="Editar">
+          <button class="btn btn-sm btn-outline-primary me-2" type="button" (click)="editProduct(i)" title="Editar">
             <i class="bi bi-pencil"></i>
           </button>
 
-          <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(i)" title="Excluir">
+          <button class="btn btn-sm btn-outline-danger" type="button" (click)="confirmDelete(i)" title="Excluir">
             <i class="bi bi-trash"></i>
           </button>
         </td>
@@ -96,11 +96,11 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="showDeleteModal = false">
+        <button class="btn btn-secondary" type="button" (click)="showDeleteModal = false">
           Cancelar
         </button>
 
-        <button class="btn btn-danger" (click)="deleteProduct()">
+        <button class="btn btn-danger" type="button" (click)="deleteProduct()">
           Excluir
         </button>
       </div>

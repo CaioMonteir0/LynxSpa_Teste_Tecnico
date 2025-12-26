@@ -36,4 +36,9 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
     }
+
+    public void delete(Long id) {
+        Product product = findById(id);
+        productRepository.delete(product);
+    }
 }

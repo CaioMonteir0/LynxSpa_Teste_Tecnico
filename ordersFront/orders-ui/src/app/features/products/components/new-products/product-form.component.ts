@@ -71,7 +71,8 @@ export class ProductFormComponent {
             name: '',
             category: '',
             priceCents: 0,
-            active: true
+            active: true,
+            imageUrl: ''
         };
 
         this.priceFormatted = '';
