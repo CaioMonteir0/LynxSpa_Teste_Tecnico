@@ -1,8 +1,0 @@
-<h2>Pedidos</h2>
-
-<ul>
-  <li *ngFor="let order of orders">
-    Pedido #{{ order.id }} - {{ order.status }} -
-    {{ order.totalCents / 100 | currency:'BRL' }}
-  </li>
-</ul>

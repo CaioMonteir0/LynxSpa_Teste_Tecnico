@@ -1,0 +1,55 @@
+<div class="container">
+
+    <h2 class="mt-4 mb-4">Produtos disponíveis</h2>
+
+    <div *ngIf="loading" class="text-center">
+        <div class="spinner-border"></div>
+    </div>
+
+    <div class="row g-3" *ngIf="!loading">
+
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let product of products">
+            <div class="card product-card h-100" [class.inactive]="!product.active">
+                <div class="product-image-wrapper">
+
+                    <span class="badge product-badge" [ngClass]="product.active ? 'bg-success' : 'bg-secondary'">
+                        {{ product.active ? 'Disponível' : 'Indisponível' }}
+                    </span>
+
+
+
+                    <img [src]="product.imageUrl" class="product-image" alt="{{product.name}}" />
+
+                </div>
+
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title">{{ product.name }}</h6>
+                    <small class="text-muted">{{ product.category }}</small>
+
+                    <div class="mt-auto">
+                        <p class="fw-bold mb-2">
+                            {{ (product.priceCents / 100) | currency:'BRL' }}
+                        </p>
+
+                        <div class="badge-button">
+                            <span class="badge stock-badge"  title="Quantidade em estoque" [ngClass]="getStockClass(product.stockQuantity || 0)">
+                                Estoque: {{ product.stockQuantity }}
+                            </span>
+
+                            <button class="btn btn-primary" title="Adicionar ao carrinho"
+                                [disabled]="!product.active">
+                                <i class="bi bi-cart4"></i>
+                            </button>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

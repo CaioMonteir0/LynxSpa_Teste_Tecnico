@@ -20,11 +20,11 @@ export const routes: Routes = [
   },
 
   {
-    path: 'orders',
+    path: 'client',
     canActivate: [authGuard, roleGuard(['CLIENT'])],
     loadChildren: () =>
-      import('./features/orders/orders.routes')
-        .then(m => m.routes)
+      import('./features/client/client.routes')
+        .then(m => m.clientRoutes)
   },
 
   {

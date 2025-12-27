@@ -24,7 +24,7 @@ export class AuthService {
 
     this.saveUser(user);
     this.messageService.success(`Seja bem-vindo, cliente!`);
-    this.router.navigate(['/orders']);
+    this.router.navigate(['/client']);
   }
 
   loginOperator(user: string, password: string): void {
