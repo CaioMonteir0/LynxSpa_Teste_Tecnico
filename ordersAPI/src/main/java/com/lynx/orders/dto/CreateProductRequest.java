@@ -15,6 +15,12 @@ public record CreateProductRequest(
         Integer priceCents,
 
         @NotBlank
-        String imageUrl
+        String imageUrl,
+
+        @NotNull
+        Boolean active,
+
+        @NotNull
+        Integer stockQuantity
 ) {
 }

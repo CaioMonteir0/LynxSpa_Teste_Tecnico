@@ -34,17 +34,17 @@ export class ProductsService {
   }
 
   create(product: Product) {
-    return this.http.post(this.API_URL, {
-      name: product.name,
-      category: product.category,
-      priceCents: product.priceCents,
-      active: product.active,
-      imageUrl: product.imageUrl
-    })
+    return this.http.post(this.API_URL, product);
   }
 
   delete(id: number) {
   return this.http.delete(`${this.API_URL}/${id}`);
 }
+
+  update(product: Product) {
+    return this.http.put<Product>(`${this.API_URL}/${product.id}`, 
+      product
+    );
+  }
 
 }

@@ -1,0 +1,37 @@
+<div class="modal fade show d-block" *ngIf="show">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Excluir produto</h5>
+        <button class="btn-close" type="button" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tem certeza que deseja excluir o produto
+          <strong>{{ product?.name }}</strong>?
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary"
+                type="button"
+                (click)="close()"
+                [disabled]="loading">
+          Cancelar
+        </button>
+
+        <button class="btn btn-danger"
+                type="button"
+                (click)="confirmDelete()"
+                [disabled]="loading">
+          Excluir
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop fade show" *ngIf="show"></div>

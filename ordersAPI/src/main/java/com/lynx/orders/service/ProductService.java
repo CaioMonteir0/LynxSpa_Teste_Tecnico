@@ -41,4 +41,15 @@ public class ProductService {
         Product product = findById(id);
         productRepository.delete(product);
     }
+
+    public Product update(Long id, CreateProductRequest request) {
+        Product product = findById(id);
+        product.setName(request.name());
+        product.setCategory(request.category());
+        product.setPriceCents(request.priceCents());
+        product.setImageUrl(request.imageUrl());
+        product.setActive(request.active());
+        product.setStockQuantity(request.stockQuantity());
+        return productRepository.save(product);
+    }
 }

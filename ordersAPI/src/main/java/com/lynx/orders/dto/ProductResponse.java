@@ -12,6 +12,7 @@ public class ProductResponse {
     private Integer priceCents;
     private Boolean active;
     private String imageUrl;
+    private Integer stockQuantity;
 
     public ProductResponse(Product product) {
         this.id = product.getId();
@@ -20,5 +21,6 @@ public class ProductResponse {
         this.imageUrl = product.getImageUrl();
         this.priceCents = product.getPriceCents();
         this.active = product.getActive();
+        this.stockQuantity = product.getStockQuantity();
     }
 }

@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../services/product.service';
 import { Product } from '../model/product.model';
-
+import { ProductEditModalComponent } from './edit-products/product-edit-modal.component';
+import { ProductDeleteModalComponent } from './delete-products/product-delete-modal.component';
 @Component({
   standalone: true,
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule,
+    ProductEditModalComponent, ProductDeleteModalComponent]
 })
 export class ProductsComponent implements OnInit {
 
@@ -19,6 +21,8 @@ export class ProductsComponent implements OnInit {
   selectedProduct?: Product;
   showDeleteModal = false;
   selectedIndex?: number;
+  showEditModal = false;
+  categories: string[] = [];
 
 
   filter = {
@@ -40,6 +44,7 @@ export class ProductsComponent implements OnInit {
       next: data => {
         this.products = data;
         this.applyFilters();
+        this.categories = Array.from(new Set(this.products.map(p => p.category))).filter(c => c);
         this.loading = false;
       },
       error: () => {
@@ -68,11 +73,17 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  editProduct(index: number): void {
-    this.selectedIndex = index;
-    this.selectedProduct = { ...this.filteredProducts[index] };
+  openEdit(product: Product) {
+    this.selectedProduct = product;
+    this.showEditModal = true;
   }
 
+  onProductUpdated(updated: Product) {
+    const index = this.products.findIndex(p => p.id === updated.id);
+    if (index !== -1) this.products[index] = updated;
+    this.showEditModal = false;
+    this.applyFilters();
+  }
 
   confirmDelete(index: number): void {
     this.selectedIndex = index;
@@ -80,23 +91,16 @@ export class ProductsComponent implements OnInit {
     this.showDeleteModal = true;
   }
 
-  deleteProduct(): void {
-    if (!this.selectedProduct?.id) return;
-
-    this.productsService.delete(this.selectedProduct.id).subscribe({
-      next: () => {
-        this.products = this.products.filter(
-          p => p.id !== this.selectedProduct!.id
-        );
-
-        this.applyFilters();
-        this.showDeleteModal = false;
-      },
-      error: () => {
-        this.showDeleteModal = false;
-      }
-    });
+  openDeleteModal(product: Product) {
+    this.selectedProduct = product;
+    this.showDeleteModal = true;
   }
+
+  onProductDeleted(productId: number) {
+    this.products = this.products.filter(p => p.id !== productId);
+    this.applyFilters();
+  }
+
 
 
 

@@ -30,7 +30,9 @@ export class ProductFormComponent {
         category: '',
         priceCents: 0,
         active: true,
-        
+        imageUrl: '',
+        stockQuantity: 0
+
     };
 
     validatePrice(): boolean {
@@ -72,7 +74,8 @@ export class ProductFormComponent {
             category: '',
             priceCents: 0,
             active: true,
-            imageUrl: ''
+            imageUrl: '',
+            stockQuantity: 0
         };
 
         this.priceFormatted = '';
@@ -91,7 +94,7 @@ export class ProductFormComponent {
             this.imagePreview = undefined;
             this.imageInvalid = true;
         };
-        console.log("Url da imagem:",this.product.imageUrl);
+        console.log("Url da imagem:", this.product.imageUrl);
         img.src = this.product.imageUrl;
     }
 
@@ -102,6 +105,12 @@ export class ProductFormComponent {
             this.messageService.error('Preço inválido');
             return;
         }
+
+        if (this.product.stockQuantity && this.product.stockQuantity < 0) {
+            this.messageService.error('Quantidade em estoque inválida');
+            return;
+        }
+
 
         this.productsService.create(this.product).subscribe({
             next: () => {

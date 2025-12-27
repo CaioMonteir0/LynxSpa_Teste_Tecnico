@@ -10,8 +10,10 @@
     </div>
 
     <div class="col-md-4">
-      <input class="form-control" placeholder="Categoria" [(ngModel)]="filter.category"
-        (ngModelChange)="applyFilters()" />
+      <select class="form-select" [(ngModel)]="filter.category" (ngModelChange)="applyFilters()">
+        <option value="">Todas as categorias</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
     </div>
 
     <div class="col-md-4 form-check mt-2">
@@ -34,6 +36,7 @@
         <th>Produto</th>
         <th>Nome</th>
         <th>Categoria</th>
+        <th class="text-center">Quantidade em estoque</th>
         <th>Preço</th>
         <th>Status</th>
         <th class="text-center">Ações</th>
@@ -47,6 +50,7 @@
         </td>
         <td>{{ p.name }}</td>
         <td>{{ p.category }}</td>
+        <td class="text-center">{{ p.stockQuantity }}</td>
         <td>R$ {{ p.priceCents / 100 | number:'1.2-2' }}</td>
         <td>
           <span class="badge" [class.bg-success]="p.active" [class.bg-secondary]="!p.active">
@@ -54,11 +58,11 @@
           </span>
         </td>
         <td class="text-center">
-          <button class="btn btn-sm btn-outline-primary me-2" type="button" (click)="editProduct(i)" title="Editar">
+          <button class="btn btn-sm btn-outline-primary me-2" type="button" (click)="openEdit(p)" title="Editar">
             <i class="bi bi-pencil"></i>
           </button>
 
-          <button class="btn btn-sm btn-outline-danger" type="button" (click)="confirmDelete(i)" title="Excluir">
+          <button class="btn btn-sm btn-outline-danger" type="button" (click)="openDeleteModal(p)" title="Excluir">
             <i class="bi bi-trash"></i>
           </button>
         </td>
@@ -72,39 +76,17 @@
 
 </div>
 
+<app-product-edit-modal
+  [show]="showEditModal"
+  [product]="selectedProduct"
+  (closed)="showEditModal = false"
+  (updated)="onProductUpdated($event)">
+</app-product-edit-modal>
 
- <!-- Modal de exclusão -->
-<div
-  class="modal fade show"
-  tabindex="-1"
-  *ngIf="showDeleteModal"
-  style="display: block; background: rgba(0,0,0,0.5)"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+<app-product-delete-modal
+  [show]="showDeleteModal"
+  [product]="selectedProduct"
+  (closed)="showDeleteModal = false"
+  (deleted)="onProductDeleted($event)"
+></app-product-delete-modal>
 
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmar exclusão</h5>
-        <button type="button" class="btn-close" (click)="showDeleteModal = false"></button>
-      </div>
-
-      <div class="modal-body">
-        <p>
-          Tem certeza que deseja excluir o produto
-          <strong>{{ selectedProduct?.name }}</strong>?
-        </p>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" (click)="showDeleteModal = false">
-          Cancelar
-        </button>
-
-        <button class="btn btn-danger" type="button" (click)="deleteProduct()">
-          Excluir
-        </button>
-      </div>
-
-    </div>
-  </div>
-</div>
