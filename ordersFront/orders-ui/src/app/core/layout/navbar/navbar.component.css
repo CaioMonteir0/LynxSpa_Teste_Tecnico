@@ -26,3 +26,42 @@
     align-items: center;
     padding-top: 12px;
 }
+
+.cart-btn {
+    background: none;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    margin-right: 100px;
+    font-size: 16px;
+}
+
+.cart-btn:hover{
+    outline: gray 1px solid;
+    border-radius: 12px;
+    box-shadow: 0 0 5px gray;
+    
+}
+
+.navbar-toggler{
+    order: -1;
+}
+
+.navbar-toggler:focus{
+    box-shadow: none;
+}
+
+.navbar-toggler:hover{
+    box-shadow: 0 0 5px gray;
+}
+
+.navbar-brand{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1px;
+}
+
+.cart-emoji{
+    font-size: 20px;
+}

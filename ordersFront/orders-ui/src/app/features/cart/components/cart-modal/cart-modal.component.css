@@ -1,0 +1,136 @@
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1040;
+}
+
+.cart-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  max-width: 90%;
+  background: #fff;
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  animation: scaleIn 0.2s ease-out;
+}
+
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+
+.cart-body {
+  padding: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-qty {
+  display: flex;              
+  align-items: center;        
+  justify-content: center;     
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid #dee2e6;
+  border-radius: 50%;         
+ 
+
+  font-size: 18px;
+  font-weight: 500;
+  line-height: -1;             
+  padding: 0;                 
+  cursor: pointer;
+}
+
+.qty-value {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.product-infos {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.full-products-infos{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.value-and-trash {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
+    
+   
+  }
+
+.remove-item{
+    position: absolute;
+    margin-top: 2rem;
+
+    .btn{
+        border-radius: 16px;
+    }
+  }
+
+.value-per-item{
+    position: relative;
+    margin-bottom: 5px;
+  }
+
+.btn-buy:hover{
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+     transform: scale(1.03);
+}
+
+

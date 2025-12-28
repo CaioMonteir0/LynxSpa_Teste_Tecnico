@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../../products/services/product.service';
 import { Product } from '../../../products/model/product.model';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   standalone: true,
@@ -16,7 +17,7 @@ export class ProductCatalogComponent implements OnInit {
   products: Product[] = [];
   loading = false;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService, public cartService: CartService) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -27,7 +28,6 @@ export class ProductCatalogComponent implements OnInit {
   if (stock <= 5) return 'bg-warning text-dark';
   return 'bg-primary';
 }
-
 
   loadProducts() {
     this.loading = true;

@@ -29,7 +29,7 @@
 
                     <div class="mt-auto">
                         <p class="fw-bold mb-2">
-                            {{ (product.priceCents / 100) | currency:'BRL' }}
+                           R$ {{ (product.priceCents / 100) | number:'1.2-2' }}
                         </p>
 
                         <div class="badge-button">
@@ -37,8 +37,8 @@
                                 Estoque: {{ product.stockQuantity }}
                             </span>
 
-                            <button class="btn btn-primary" title="Adicionar ao carrinho"
-                                [disabled]="!product.active">
+                            <button class="btn btn-primary" type="button" title="Adicionar ao carrinho" (click)="cartService.add(product)"
+                                [disabled]="!product.active || product.stockQuantity === 0">
                                 <i class="bi bi-cart4"></i>
                             </button>
                         </div>

@@ -3,8 +3,19 @@
   <div class="container-fluid">
 
     <a class="navbar-brand">
-      Gestão de Pedidos
+      Lynx Storage Store
     </a>
+
+    <button class="cart-btn" title="Carrinho de compras" (click)="toggleCart()" *ngIf="authService.hasRole('CLIENT')">
+
+      <i class="cart-emoji">🛒</i>
+
+      <span *ngIf="itemsCount > 0"
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ itemsCount }}
+      </span>
+    </button>
+
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -16,20 +27,23 @@
 
         <!-- OPERADOR -->
         <li id="nav-products" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
-          <a class="nav-link active" routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
+          <a class="nav-link active" routerLink="/products" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Produtos
           </a>
         </li>
 
         <li id="nav-products-register" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
-          <a class="nav-link active" routerLink="/products/new" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
+          <a class="nav-link active" routerLink="/products/new" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Cadastro de Produtos
           </a>
         </li>
 
         <!-- CLIENTE -->
         <li class="nav-item me-3" *ngIf="authService.hasRole('CLIENT')">
-          <a class="nav-link active" routerLink="/client" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: white;">
+          <a class="nav-link active" routerLink="/client" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Nossos Produtos
           </a>
         </li>
@@ -54,14 +68,16 @@
         </span>
 
         <button class="btn btn-outline-danger btn-sm" (click)="logout()" style="margin-left: 12px ;">
-        Sair
-      </button>
+          Sair
+        </button>
       </div>
 
 
 
-      
+
 
     </div>
   </div>
 </nav>
+
+<app-cart-modal *ngIf="showCart" (closed)="toggleCart()"></app-cart-modal>

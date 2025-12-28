@@ -1,0 +1,74 @@
+<div class="cart-backdrop" (click)="close()"></div>
+
+
+<div class="cart-modal">
+    <div class="cart-header bg-dark text-white">
+        <h5 class="mb-0">Carrinho</h5>
+        <button class="btn-close btn-close-white" (click)="close()"></button>
+    </div>
+
+    <div class="cart-body" *ngIf="items.length; else empty">
+        <div class="cart-item" *ngFor="let item of items">
+            <div>
+
+                <div class="full-products-infos">
+                    <img width="64" height="64" [src]="item.product.imageUrl" />
+                    <div class="product-infos">
+                        <strong> {{ item.product.name }}</strong>
+                        <small>{{item.product.category}}</small>
+                    </div>
+                </div>
+
+
+                <div class="item-quantity">
+                    <button class="btn btn-sm btn-outline-secondary btn-qty" (click)="decrease(item)"
+                        [disabled]="item.quantity <= 1">
+                        -
+                    </button>
+
+                    <span class="qty-value">
+                        {{ item.quantity }}
+                    </span>
+
+                    <button class="btn btn-sm btn-outline-secondary btn-qty" (click)="increase(item)"
+                        [disabled]="item.product && item.product.stockQuantity && item.quantity >= item.product.stockQuantity">
+                        +
+                    </button>
+
+
+                </div>
+            </div>
+
+            <div class="value-and-trash">
+                <div class="fw-bold value-per-item">
+                    R$ {{ (item.product.priceCents / 100 * item.quantity) | number:'1.2-2' }}
+                </div>
+                <div class="remove-item">
+                    <button class="btn btn-sm btn-outline-danger" type="button"
+                        (click)="cartService.remove(item.product.id ?? 0)" title="Excluir produto">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <hr />
+
+        <div class="cart-total">
+            <span>Total</span>
+            <strong>R$ {{ total / 100 | number:'1.2-2' }}</strong>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-3 btn-buy" type="button" (click)="checkout()">
+            Finalizar compra
+        </button>
+    </div>
+
+    <ng-template #empty>
+        <p class="text-center text-muted mt-4">
+            Seu carrinho está vazio
+        </p>
+    </ng-template>
+</div>
