@@ -2,34 +2,49 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthUser, UserRole } from '../model/auth.model';
 import { MessageService } from '../../ui/message.service';
+import { ClientService } from '../../../features/client/services/client.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private readonly STORAGE_KEY = 'auth_user';
 
-  constructor(private router: Router, private messageService: MessageService) {}
+  private clientMock ={ //mock para caso não der tempo de concluir o login completo
+    email: 'cliente@teste.com',
+    password: '1234'
+  }
+
+  constructor(private router: Router, private messageService: MessageService, private clientService: ClientService) {}
 
   loginClient(email: string, password: string): void {
-    
-    if (!email || !password) {
-      this.messageService.error('Informe email e senha');
-      return;
-    }
 
-    const user: AuthUser = {
-      role: 'CLIENT',
-      name: email
-    };
-
-    this.saveUser(user);
-    this.messageService.success(`Seja bem-vindo, cliente!`);
-    this.router.navigate(['/client']);
+  if (email !== this.clientMock.email || password !== this.clientMock.password) {
+    this.messageService.error('Informe email e senha válidos');
+    return;
   }
+
+  this.clientService.findByEmail(email.trim()).subscribe({
+    next: clientData => {
+
+      const user: AuthUser = {
+        role: 'CLIENT',
+        name: clientData.name
+      };
+
+      this.saveUser(user);
+      this.messageService.success(`Seja bem-vindo, ${clientData.name}!`);
+      this.router.navigate(['/client']);
+    },
+    error: () => {
+      this.messageService.error('Erro ao buscar dados do cliente');
+    }
+  });
+}
+
 
   loginOperator(user: string, password: string): void {
     if (!user || !password) {
-      this.messageService.error('Informe usuário e senha');
+      this.messageService.error('Informe usuário e senha válidos');
       return;
     }
 

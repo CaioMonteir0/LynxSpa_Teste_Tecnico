@@ -1,21 +1,10 @@
-#nav-products:hover {
+#nav-tabs:hover {
     font-size: large;
     font-weight: bold;
 }
 
 
-#nav-products a.active {
-    color: white;
-    font-size: large;
-    font-weight: bold;
-}
-
-#nav-products-register:hover{
-    font-size: large;
-    font-weight: bold;
-}
-
-#nav-products-register a.active {
+#nav-tabs a.active {
     color: white;
     font-size: large;
     font-weight: bold;

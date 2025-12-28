@@ -1,22 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface CreateOrderItemDTO {
-    productId: number;
-    quantity: number;
-}
-
-
-export interface CreateOrderDTO {
-    customerId: number;
-    items: CreateOrderItemDTO[];
-}
-
-interface CreateOrderResponse {
-    id: number;
-}
-
+import { CreateOrderDTO, CreateOrderResponse } from '../model/orders.model';
+import { OrderSummary } from '../model/order-summary.model';
 @Injectable({ providedIn: 'root' })
 export class OrdersService {
 
@@ -25,10 +11,18 @@ export class OrdersService {
     constructor(private http: HttpClient) { }
 
     create(order: CreateOrderDTO) {
-        return this.http.post<{ id: number }>(
+        return this.http.post<CreateOrderResponse>(
             this.API_URL,
             order
         );
+    }
+
+    findAll(): Observable<OrderSummary[]> {
+        return this.http.get<OrderSummary[]>(this.API_URL);
+    }
+
+    findById(id: number) {
+        return this.http.get(`${this.API_URL}/${id}`);
     }
 
 }

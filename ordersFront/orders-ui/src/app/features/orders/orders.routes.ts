@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
-import { ProductCatalogComponent } from './components/product-catalog/product-catalog.component';
+import { MyOrdersComponent } from './pages/my-orders.component';
 import { authGuard } from '../../core/auth/guards/auth.guard';
 import { roleGuard } from '../../core/auth/guards/role.guard';
-
-export const clientRoutes: Routes = [
+export const ordersRoutes: Routes = [
   {
     path: '',
-    component: ProductCatalogComponent,
+    component: MyOrdersComponent,
     canActivate: [authGuard, roleGuard(['CLIENT'])],
   }
 ];

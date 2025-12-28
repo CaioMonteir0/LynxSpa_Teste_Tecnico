@@ -1,7 +1,8 @@
 package com.lynx.orders.service;
 
 import com.lynx.orders.exception.BusinessException;
-import com.lynx.orders.model.Order;
+import com.lynx.orders.model.Customer;
+import com.lynx.orders.model.Orders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,8 @@ import com.lynx.orders.model.Product;
 import com.lynx.orders.model.OrderItem;
 import com.lynx.orders.dto.CreateOrderRequest;
 import com.lynx.orders.dto.CreateOrderItemRequest;
-
+import com.lynx.orders.repository.CustomerRepository;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,35 +24,53 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CustomerRepository customerRepository;
 
-
-    public int calculateTotal(Order order) {
+    public int calculateTotal(Orders order) {
         return order.getItems().stream()
                 .mapToInt(i -> i.getQuantity() * i.getUnitPriceCents())
                 .sum();
     }
 
-    public Order findById(Long id) {
+    public Orders findByIdWithItems(Long id) {
+        return orderRepository.findByIdWithItems(id)
+                .orElseThrow(() -> new BusinessException("Pedido não encontrado"));
+    }
+
+    public Orders findById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Pedido não encontrado"));
     }
 
     @Transactional
-    public Order createOrder(CreateOrderRequest dto) {
+    public Orders createOrder(CreateOrderRequest dto) {
 
-        Order order = new Order();
+        Customer customer = customerRepository.findById(dto.getCustomerId())
+                .orElseThrow(() -> new BusinessException("Cliente não encontrado"));
+
+        Orders order = new Orders();
         order.setStatus("NEW");
         order.setCreatedAt(LocalDateTime.now());
+        order.setCustomer(customer);
 
-        order = orderRepository.save(order);
+        int totalCents = 0;
 
         for (CreateOrderItemRequest item : dto.getItems()) {
-            Product product = productRepository.findById(item.getProductId())
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-            if (!product.getActive()) {
-                throw new RuntimeException("Produto inativo: " + product.getName());
+            Product product = productRepository.findById(item.getProductId())
+                    .orElseThrow(() -> new BusinessException("Produto não encontrado"));
+
+            if (!Boolean.TRUE.equals(product.getActive())) {
+                throw new BusinessException("Produto inativo: " + product.getName());
             }
+
+            if (product.getStockQuantity() < item.getQuantity()) {
+                throw new BusinessException(
+                        "Estoque insuficiente para o produto: " + product.getName());
+            }
+
+            product.setStockQuantity(
+                    product.getStockQuantity() - item.getQuantity());
 
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -58,10 +78,17 @@ public class OrderService {
             orderItem.setQuantity(item.getQuantity());
             orderItem.setUnitPriceCents(product.getPriceCents());
 
-            orderItemRepository.save(orderItem);
+            order.getItems().add(orderItem);
+
+            totalCents += item.getQuantity() * product.getPriceCents();
         }
 
-        return order;
+        order.setTotalCents(totalCents);
+
+        return orderRepository.save(order);
     }
 
+    public List<Orders> findAll() {
+        return orderRepository.findAllWithItems();
+    }
 }

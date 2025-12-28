@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2>Meus pedidos</h2>
+
+  <div *ngIf="loading" class="text-center mt-4">
+    Carregando pedidos...
+  </div>
+
+  <table *ngIf="!loading && orders.length" class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Status</th>
+        <th>Data</th>
+        <th>Total</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.id }}</td>
+
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-warning': order.status === 'NEW',
+              'bg-success': order.status === 'PAID',
+              'bg-danger': order.status === 'CANCELLED'
+            }"
+          >
+            {{ order.status }}
+          </span>
+        </td>
+
+        <td>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ formatBRL(order.totalCents) }}</td>
+
+        <td>
+          <button class="btn btn-sm btn-outline-primary">
+            Ver detalhes
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !orders.length" class="alert alert-info mt-3">
+    Nenhum pedido encontrado.
+  </div>
+</div>

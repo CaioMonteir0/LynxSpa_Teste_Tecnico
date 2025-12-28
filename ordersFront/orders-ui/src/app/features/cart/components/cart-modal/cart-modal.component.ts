@@ -1,4 +1,3 @@
-import { Message } from './../../../../core/ui/message.service';
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
@@ -6,7 +5,8 @@ import { CartItem } from '../../model/cart.item.model';
 import { Subscription } from 'rxjs';
 import { OrdersService } from '../../../orders/services/orders.service';
 import { MessageService } from '../../../../core/ui/message.service';
-import { CreateOrderDTO } from '../../../orders/services/orders.service';
+import { CreateOrderDTO } from '../../../orders/model/orders.model';
+import { Router } from '@angular/router';
 @Component({
     standalone: true,
     selector: 'app-cart-modal',
@@ -25,7 +25,7 @@ export class CartModalComponent implements OnInit, OnDestroy {
 
     private sub?: Subscription;
 
-    constructor(public cartService: CartService, private ordersService: OrdersService, private messageService: MessageService) { }
+    constructor(public cartService: CartService, private ordersService: OrdersService, private messageService: MessageService, private router: Router) { }
 
     ngOnInit(): void {
         this.sub = this.cartService.items$.subscribe(items => {
@@ -70,8 +70,9 @@ export class CartModalComponent implements OnInit, OnDestroy {
 
         this.ordersService.create(payload).subscribe({
             next: res => {
-
+                const order = res;
                 this.cartService.clear();
+                //this.router.navigate(['/payment', order.id]);
                 this.messageService.success(
                     `Pedido #${res.id} criado com sucesso`
                 );

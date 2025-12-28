@@ -1,0 +1,7 @@
+table td, table th {
+  vertical-align: middle;
+}
+
+.badge{
+    border-radius: 12px;
+}

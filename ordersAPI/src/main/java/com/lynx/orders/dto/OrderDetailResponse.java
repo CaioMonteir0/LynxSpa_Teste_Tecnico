@@ -1,6 +1,6 @@
 package com.lynx.orders.dto;
 
-import com.lynx.orders.model.Order;
+import com.lynx.orders.model.Orders;
 import lombok.Getter;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class OrderDetailResponse {
     private List<OrderItemResponse> items;
     private int totalCents;
 
-    public OrderDetailResponse(Order order, int totalCents) {
+    public OrderDetailResponse(Orders order, int totalCents) {
         this.id = order.getId();
         this.status = order.getStatus();
         this.items = order.getItems()

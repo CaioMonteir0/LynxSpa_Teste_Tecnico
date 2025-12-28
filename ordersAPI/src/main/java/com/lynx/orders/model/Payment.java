@@ -18,7 +18,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
     private String method;
     private Integer amountCents;
     private LocalDateTime paidAt;

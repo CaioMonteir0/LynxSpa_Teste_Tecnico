@@ -26,14 +26,14 @@
       <ul class="navbar-nav me-auto d-flex flex-row">
 
         <!-- OPERADOR -->
-        <li id="nav-products" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
+        <li id="nav-tabs" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
           <a class="nav-link active" routerLink="/products" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Produtos
           </a>
         </li>
 
-        <li id="nav-products-register" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
+        <li id="nav-tabs" class="nav-item me-3" *ngIf="authService.hasRole('OPERATOR')">
           <a class="nav-link active" routerLink="/products/new" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Cadastro de Produtos
@@ -41,10 +41,17 @@
         </li>
 
         <!-- CLIENTE -->
-        <li class="nav-item me-3" *ngIf="authService.hasRole('CLIENT')">
+        <li id="nav-tabs" class="nav-item me-3" *ngIf="authService.hasRole('CLIENT')">
           <a class="nav-link active" routerLink="/client" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}" style="color: white;">
             Nossos Produtos
+          </a>
+        </li>
+
+        <li id="nav-tabs" class="nav-item me-3" *ngIf="authService.hasRole('CLIENT')">
+          <a class="nav-link active" routerLink="/orders" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" style="color: white;">
+            Meus Pedidos
           </a>
         </li>
 

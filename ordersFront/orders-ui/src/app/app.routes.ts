@@ -28,6 +28,14 @@ export const routes: Routes = [
   },
 
   {
+    path: 'orders',
+    canActivate: [authGuard, roleGuard(['CLIENT'])],
+    loadChildren: () =>
+      import('./features/orders/orders.routes')
+        .then(m => m.ordersRoutes)
+  },
+
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
