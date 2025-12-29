@@ -20,17 +20,18 @@ O frontend consome a API para:
 > Use os seguintes dados abaixo:
 
  **Seção do Cliente:**
-
+>```bash
 > email: cliente@teste.com
 >
 > senha: 1234
+>```
 
 **Seção do Operador:**
-
+>```bash
 > usuário: CaioMonteiro
 >
 > senha: 1234
-
+>```
 ---
 
 ## 🧩 Requisitos
