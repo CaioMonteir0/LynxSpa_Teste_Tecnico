@@ -22,7 +22,8 @@ export class ProductCatalogComponent implements OnInit {
 
   filter = {
     search: '',
-    category: ''
+    category: '',
+    onlyActive: false
   };
 
 
@@ -35,6 +36,8 @@ export class ProductCatalogComponent implements OnInit {
     this.productRefreshService.refresh$.subscribe(() => {
       this.loadProducts()
     });
+
+    this.applyFilters();
   }
 
   getStockClass(stock: number): string {
@@ -73,7 +76,10 @@ export class ProductCatalogComponent implements OnInit {
     const matchesCategory =
       !this.filter.category || p.category === this.filter.category;
 
-    return matchesSearch && matchesCategory;
+    const matchesActive =
+        !this.filter.onlyActive || p.active;
+
+    return matchesSearch && matchesCategory && matchesActive;
   });
 }
 
