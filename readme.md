@@ -46,11 +46,19 @@ Mas o arquivo do banco está no repositório, **então caso queira começar do z
 
 ### 🔹 Frontend – Angular SPA
 
+> ⚠️ Importante  
+> Este projeto utiliza Angular 19. 
+> Caso sua máquina possua uma versão diferente do Angular CLI, recomenda-se executar os comandos usando:
+>
+> ```bash
+> npx ng serve
+> ``` 
+
 | Tecnologia | Versão Recomendada |
 |-----------|--------------------|
 | Node.js | **18+** |
 | NPM | **9+** |
-| Angular | **17+** |
+| Angular | **19+** |
 | Angular CLI | Compatível |
 
 #### Bibliotecas e recursos utilizados:
