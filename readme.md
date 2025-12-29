@@ -15,6 +15,22 @@ O frontend consome a API para:
 - Processar pagamentos
 - Atualizar estoque automaticamente após compra
 
+> ⚠️ **Importante**  
+> Atualmente o projeto conta com **dados mockados** no login.
+> Use os seguintes dados abaixo:
+
+ **Seção do Cliente:**
+
+> email: cliente@teste.com
+>
+> senha: 1234
+
+**Seção do Operador:**
+
+> usuário: CaioMonteiro
+>
+> senha: 1234
+
 ---
 
 ## 🧩 Requisitos
