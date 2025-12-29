@@ -80,6 +80,7 @@ export class ProductFormComponent {
 
         this.priceFormatted = '';
         this.priceInvalid = false;
+        this.imagePreview = undefined;
     }
 
     onImageUrlChange() {

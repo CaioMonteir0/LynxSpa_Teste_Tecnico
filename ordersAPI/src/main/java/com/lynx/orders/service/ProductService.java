@@ -20,6 +20,7 @@ public class ProductService {
             .name(request.name())
             .category(request.category())
             .priceCents(request.priceCents())
+            .stockQuantity(request.stockQuantity())
             .active(true)
             .imageUrl(request.imageUrl())
             .build();
