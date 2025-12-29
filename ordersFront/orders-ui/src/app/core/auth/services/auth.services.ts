@@ -14,6 +14,11 @@ export class AuthService {
     password: '1234'
   }
 
+  private OperatorMock ={// aqui tambem
+    user: 'CaioMonteiro',
+    password: '1234510'
+  }
+
   constructor(private router: Router, private messageService: MessageService, private clientService: ClientService) {}
 
   loginClient(email: string, password: string): void {
@@ -43,7 +48,7 @@ export class AuthService {
 
 
   loginOperator(user: string, password: string): void {
-    if (!user || !password) {
+    if (user !== this.OperatorMock.user || password !== this.OperatorMock.password) {
       this.messageService.error('Informe usuário e senha válidos');
       return;
     }

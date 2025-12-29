@@ -1,6 +1,8 @@
 export interface OrderDetail {
   id: number;
   status: 'NEW' | 'PAID' | 'CANCELLED';
+  paidAt?: string;
+  paymentMethod?: string;
   items: OrderItemDetail[];
   totalCents: number;
 }

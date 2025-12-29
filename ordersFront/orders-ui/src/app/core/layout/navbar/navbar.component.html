@@ -87,4 +87,11 @@
   </div>
 </nav>
 
-<app-cart-modal *ngIf="showCart" (closed)="toggleCart()"></app-cart-modal>
+<app-cart-modal *ngIf="showCart" (closed)="toggleCart()" (orderCreated)="openPayment($event)"></app-cart-modal>
+
+<app-payment-modal
+  *ngIf="selectedOrderId !== null"
+  [orderId]="selectedOrderId!"
+  (closed)="closePayment()"
+  (paid)="closePayment()">
+</app-payment-modal>

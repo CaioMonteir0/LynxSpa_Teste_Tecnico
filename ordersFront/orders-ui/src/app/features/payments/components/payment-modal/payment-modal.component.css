@@ -57,3 +57,27 @@
     transform: scale(1);
   }
 }
+
+.payment-infos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.payment-modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    height: 45px;
+    border-radius: 12px 12px 0 0;
+    
+}
+
+.modal-content {
+    padding: 0;
+}
+
+.modal-details{
+    padding: 20px;
+}

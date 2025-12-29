@@ -3,37 +3,58 @@
 <div class="modal-container">
     <div class="modal-content" *ngIf="order; else loading" (click)="$event.stopPropagation()">
 
-        <h3>Pedido #{{ order.id }}</h3>
+        <div class="payment-modal-header bg-dark text-white">
+            <h3 style="margin-left: 12px; margin-top: 4px">Pedido #{{ order.id }}</h3>
+            <button class="btn-close btn-close-white mr-4" style="margin-right: 12px; margin-top: 8px; outline: none" (click)="close()"></button>
+        </div>
 
-        <ul>
-            <li *ngFor="let item of order.items">
-                {{ item.productName }} — <a style="font-weight: bold">{{ item.quantity }}x (R$ {{ item.unitPriceCents /
-                    100 | number:'1.2-2' }})</a>
-            </li>
-        </ul>
+        <div class="modal-details">
 
-        <p><strong>Total:</strong> {{ order.totalCents / 100 | currency:'BRL' }}</p>
+            <ul>
+                <li *ngFor="let item of order.items">
+                    {{ item.productName }} — <a style="font-weight: bold">{{ item.quantity }}x (R$ {{
+                        item.unitPriceCents /
+                        100 | number:'1.2-2' }})</a>
+                </li>
+            </ul>
 
-        <div *ngIf="order.status === 'NEW'">
-            <label>Método de pagamento</label>
-
-            <select [(ngModel)]="selectedMethod" style="margin-left: 12px;border-radius: 12px;">
-                <option value="PIX">PIX</option>
-                <option value="CREDIT_CARD">Cartão</option>
-                <option value="BOLETO">Boleto</option>
-            </select>
-
-            <div class="actions">
-                <button class="btn btn-primary" (click)="pay()">Pagar</button>
-                <button class="btn btn-outline-danger" (click)="cancelOrder()">Cancelar</button>
+            <div class="payment-infos">
+                <p><strong>Total:</strong> {{ order.totalCents / 100 | currency:'BRL' }}</p>
+                <p *ngIf="order.status == 'PAID'">Método de pagamento: <strong>{{ order.paymentMethod }}</strong></p>
             </div>
+
+            <div *ngIf="order.status === 'NEW'">
+                <label>Método de pagamento</label>
+
+                <select [(ngModel)]="selectedMethod" style="margin-left: 12px;border-radius: 12px;">
+                    <option value="PIX">PIX</option>
+                    <option value="CREDIT_CARD">Cartão</option>
+                    <option value="BOLETO">Boleto</option>
+                </select>
+
+                <div class="actions">
+                    <button class="btn btn-primary" (click)="pay()">Pagar</button>
+                    <button class="btn btn-outline-danger" (click)="cancelOrder()">Cancelar</button>
+                </div>
+            </div>
+
+            <div *ngIf="order.status === 'PAID'">
+                <p>Data de pagamento: {{ order.paidAt | date:'dd/MM/yyyy' }}</p>
+                <p><i class="bi bi-check2-circle" style="font-size: 22px; color: green"></i> Pedido pago</p>
+
+            </div>
+
+            <div *ngIf="order.status === 'CANCELLED'">
+                
+                <p><i class="bi bi-x-circle" style="font-size: 22px; color: red"></i> Pedido cancelado</p>
+
+            </div>
+
+          
+
         </div>
 
-        <div *ngIf="order.status === 'PAID'">
-            <p><i class="bi bi-check2-circle" style="font-size: 22px; color: green"></i> Pedido pago</p>
-        </div>
 
-        <button class="btn btn-secondary mt-3" (click)="close()">Fechar</button>
 
     </div>
 

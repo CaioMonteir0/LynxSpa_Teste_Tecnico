@@ -7,10 +7,13 @@ import { OrdersService } from '../../../orders/services/orders.service';
 import { MessageService } from '../../../../core/ui/message.service';
 import { CreateOrderDTO } from '../../../orders/model/orders.model';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { OrderSummary } from '../../../orders/model/order-summary.model';
+
 @Component({
     standalone: true,
     selector: 'app-cart-modal',
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './cart-modal.component.html',
     styleUrls: ['./cart-modal.component.css']
 })
@@ -18,9 +21,12 @@ import { Router } from '@angular/router';
 export class CartModalComponent implements OnInit, OnDestroy {
 
     @Output() closed = new EventEmitter<void>();
+    @Output() orderCreated = new EventEmitter<number>();
 
     items: CartItem[] = [];
     total = 0;
+    
+    orders: OrderSummary[] = [];
 
 
     private sub?: Subscription;
@@ -54,6 +60,7 @@ export class CartModalComponent implements OnInit, OnDestroy {
     }
 
 
+
     checkout(): void {
         if (this.items.length === 0) {
             this.messageService.error('Carrinho vazio');
@@ -72,11 +79,12 @@ export class CartModalComponent implements OnInit, OnDestroy {
             next: res => {
                 const order = res;
                 this.cartService.clear();
-                //this.router.navigate(['/payment', order.id]);
                 this.messageService.success(
                     `Pedido #${res.id} criado com sucesso`
                 );
+                this.orderCreated.emit(order.id);
                 this.close();
+
             },
             error: err => {
 
@@ -86,6 +94,5 @@ export class CartModalComponent implements OnInit, OnDestroy {
             }
         });
     }
-
 
 }

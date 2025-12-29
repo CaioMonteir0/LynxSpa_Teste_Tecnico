@@ -6,9 +6,26 @@
         <div class="spinner-border"></div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input class="form-control" placeholder="Buscar por nome" [(ngModel)]="filter.search"
+                (ngModelChange)="applyFilters()" />
+        </div>
+
+        <div class="col-md-4">
+            <select class="form-select" [(ngModel)]="filter.category" (ngModelChange)="applyFilters()">
+                <option value="">Todas as categorias</option>
+                <option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+
     <div class="row g-3" *ngIf="!loading">
 
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let product of products">
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let product of filteredProducts">
             <div class="card product-card h-100" [class.inactive]="!product.active">
                 <div class="product-image-wrapper">
 
@@ -29,16 +46,19 @@
 
                     <div class="mt-auto">
                         <p class="fw-bold mb-2">
-                           R$ {{ (product.priceCents / 100) | number:'1.2-2' }}
+                            R$ {{ (product.priceCents / 100) | number:'1.2-2' }}
                         </p>
 
                         <div class="badge-button">
-                            <span class="badge stock-badge"  title="Quantidade em estoque" [ngClass]="getStockClass(product.stockQuantity || 0)">
-                                Estoque: {{ product.stockQuantity }}
+                            <span class="badge stock-badge" title="Quantidade em estoque"
+                                [ngClass]="getStockClass(product.stockQuantity || 0)">
+                                <a *ngIf="product.active">Estoque: {{ product.stockQuantity }}</a>
+
                             </span>
 
-                            <button class="btn btn-primary" type="button" title="Adicionar ao carrinho" (click)="cartService.add(product)"
-                                [disabled]="!product.active || product.stockQuantity === 0">
+                            <button *ngIf="product.active && product.stockQuantity && product.stockQuantity > 0"
+                                class="btn btn-primary" type="button" title="Adicionar ao carrinho"
+                                (click)="cartService.add(product)">
                                 <i class="bi bi-cart4"></i>
                             </button>
                         </div>
