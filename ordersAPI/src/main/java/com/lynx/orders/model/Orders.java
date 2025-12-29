@@ -27,8 +27,14 @@ public class Orders {
     @Column(nullable = false)
     private String status;
 
+    @Column(name = "payment_method")
+    private String paymentMethod;
+
     @Column(name = "total_cents", nullable = false)
     private Integer totalCents;
+
+    @Column(name = "paid_at")
+    private LocalDateTime paidAt;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

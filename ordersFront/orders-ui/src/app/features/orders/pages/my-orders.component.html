@@ -6,7 +6,7 @@
   </div>
 
   <table *ngIf="!loading && orders.length" class="table table-hover mt-3">
-    <thead>
+    <thead class="my-table-order">
       <tr>
         <th>#</th>
         <th>Status</th>
@@ -29,7 +29,7 @@
               'bg-danger': order.status === 'CANCELLED'
             }"
           >
-            {{ order.status }}
+            <a>{{ order.status == 'NEW' ? 'Pendente' : order.status == 'PAID' ? 'Pago' : 'Cancelado' }}</a>
           </span>
         </td>
 
@@ -37,7 +37,8 @@
         <td>{{ formatBRL(order.totalCents) }}</td>
 
         <td>
-          <button class="btn btn-sm btn-outline-primary">
+          <button class="btn btn-sm btn-outline-primary" type="button" 
+          (click)="openDetails(order.id)">
             Ver detalhes
           </button>
         </td>
@@ -49,3 +50,10 @@
     Nenhum pedido encontrado.
   </div>
 </div>
+
+<app-payment-modal
+  *ngIf="selectedOrderId !== null"
+  [orderId]="selectedOrderId!"
+  (closed)="closeModal()"
+  (paid)="closeModal()">
+</app-payment-modal>

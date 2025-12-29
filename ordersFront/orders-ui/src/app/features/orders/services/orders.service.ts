@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateOrderDTO, CreateOrderResponse } from '../model/orders.model';
 import { OrderSummary } from '../model/order-summary.model';
+import { OrderDetail } from '../model/order-detail.model';
 @Injectable({ providedIn: 'root' })
 export class OrdersService {
 
@@ -21,8 +22,12 @@ export class OrdersService {
         return this.http.get<OrderSummary[]>(this.API_URL);
     }
 
-    findById(id: number) {
-        return this.http.get(`${this.API_URL}/${id}`);
+    findById(orderId: number) {
+        return this.http.get<OrderDetail>(`${this.API_URL}/${orderId}`);
+    }
+
+    cancel(orderId: number) {
+        return this.http.post<void>(`${this.API_URL}/${orderId}/cancel`, {});
     }
 
 }

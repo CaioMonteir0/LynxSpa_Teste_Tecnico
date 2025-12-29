@@ -91,4 +91,31 @@ public class OrderService {
     public List<Orders> findAll() {
         return orderRepository.findAllWithItems();
     }
+
+    @Transactional
+    public Orders cancelOrder(Long orderId) {
+
+        Orders order = orderRepository.findByIdWithItems(orderId)
+                .orElseThrow(() -> new BusinessException("Pedido não encontrado"));
+
+        if ("CANCELLED".equals(order.getStatus())) {
+            throw new BusinessException("Pedido já está cancelado");
+        }
+
+        if (!"NEW".equals(order.getStatus()) && !"PAID".equals(order.getStatus())) {
+            throw new BusinessException("Pedido não pode ser cancelado no status atual");
+        }
+
+       
+        for (OrderItem item : order.getItems()) {
+            Product product = item.getProduct();
+            product.setStockQuantity(
+                    product.getStockQuantity() + item.getQuantity());
+        }
+
+        order.setStatus("CANCELLED");
+
+        return orderRepository.save(order);
+    }
+
 }

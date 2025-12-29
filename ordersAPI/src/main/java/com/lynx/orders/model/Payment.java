@@ -3,7 +3,7 @@ package com.lynx.orders.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,10 +16,14 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private Orders order;
-    private String method;
-    private Integer amountCents;
-    private LocalDateTime paidAt;
+
+    private String method; 
+    private String status; 
+
+    private int amountCents;
+
+    private LocalDateTime createdAt;
 }

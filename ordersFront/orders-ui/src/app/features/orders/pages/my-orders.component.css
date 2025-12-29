@@ -5,3 +5,8 @@ table td, table th {
 .badge{
     border-radius: 12px;
 }
+
+.my-table-order{
+    --bs-table-bg: rgba(33, 37, 41, 1);
+    --bs-table-color: white;
+}

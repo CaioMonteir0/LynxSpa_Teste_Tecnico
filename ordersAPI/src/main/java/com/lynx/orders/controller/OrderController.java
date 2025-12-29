@@ -3,6 +3,7 @@ package com.lynx.orders.controller;
 import com.lynx.orders.dto.CreateOrderRequest;
 import com.lynx.orders.dto.CreateOrderResponse;
 import com.lynx.orders.dto.OrderDetailResponse;
+import com.lynx.orders.dto.OrderResponse;
 import com.lynx.orders.model.Orders;
 import com.lynx.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,14 @@ public class OrderController {
     public List<Orders> findAll() {
         return orderService.findAll();
     }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<OrderResponse> cancel(@PathVariable Long id) {
+
+        Orders order = orderService.cancelOrder(id);
+        int total = orderService.calculateTotal(order);
+
+        return ResponseEntity.ok(new OrderResponse(order, total));
+    }
+
 }
